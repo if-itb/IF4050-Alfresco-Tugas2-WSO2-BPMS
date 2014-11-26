@@ -1,4 +1,4 @@
-Project ini merupakan contoh aplikasi yang menggunakan service pada Alfresco. Dikerjakan untuk memenuhi tugas eksplorasi Alfresco (community edition) dari matakuliah IF4050 Rekayasa Perangkat Lunak Berorientasi Service.
+Project ini merupakan contoh aplikasi yang menerapkan WSO2 BPS dan JBoss jBPM. Dikerjakan untuk memenuhi tugas 3 dari matakuliah IF4050 Rekayasa Perangkat Lunak Berorientasi Service.
 
 Anggota kelompok:
 
@@ -11,5 +11,3 @@ Anggota kelompok:
 18211031 - Nicolas Novian Ruslim
 
 13511078 - Taufik Hidayat
-
-Catatan: Project ini belum selesai sepenuhnya. Fitur belum lengkap dan masih ada error.
