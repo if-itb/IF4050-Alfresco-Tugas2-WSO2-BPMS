@@ -1,4 +1,4 @@
-Project ini merupakan contoh aplikasi yang menerapkan WSO2 BPS dan JBoss jBPM. Dikerjakan untuk memenuhi tugas 3 dari matakuliah IF4050 Rekayasa Perangkat Lunak Berorientasi Service.
+Project ini merupakan contoh aplikasi yang menerapkan WSO2 BPS dan JBoss jBPM. Dikerjakan untuk memenuhi tugas 2 dari matakuliah IF4050 Rekayasa Perangkat Lunak Berorientasi Service.
 
 Anggota kelompok:
 
