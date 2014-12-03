@@ -11,3 +11,5 @@ Anggota kelompok:
 18211031 - Nicolas Novian Ruslim
 
 13511078 - Taufik Hidayat
+
+Folder PRS Test berisi contoh aplikasi menggunakan jBoss jBPM 6.0 yang mensimulasikan proses bisnis dari Pengisian Rencana Studi di ITB. (versi 1.0)
