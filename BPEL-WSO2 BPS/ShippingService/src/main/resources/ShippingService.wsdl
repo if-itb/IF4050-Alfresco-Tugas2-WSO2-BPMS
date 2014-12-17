@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://shipping.spec.bpel.wso2.org" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://shipping.spec.bpel.wso2.org">
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://shipping.spec.bpel.wso2.org">
+            <xs:element name="selectShipper">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="shipperId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="selectShipperResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:long"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="selectShipperRequest">
+        <wsdl:part name="parameters" element="ns:selectShipper"/>
+    </wsdl:message>
+    <wsdl:message name="selectShipperResponse">
+        <wsdl:part name="parameters" element="ns:selectShipperResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="ShippingServicePortType">
+        <wsdl:operation name="selectShipper">
+            <wsdl:input message="ns:selectShipperRequest" wsaw:Action="urn:selectShipper"/>
+            <wsdl:output message="ns:selectShipperResponse" wsaw:Action="urn:selectShipperResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="ShippingServiceSoap11Binding" type="ns:ShippingServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="selectShipper">
+            <soap:operation soapAction="urn:selectShipper" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="ShippingServiceSoap12Binding" type="ns:ShippingServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="selectShipper">
+            <soap12:operation soapAction="urn:selectShipper" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="ShippingServiceHttpBinding" type="ns:ShippingServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="selectShipper">
+            <http:operation location="selectShipper"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="selectShipper"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="selectShipper"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="ShippingService">
+        <wsdl:port name="ShippingServiceHttpSoap11Endpoint" binding="ns:ShippingServiceSoap11Binding">
+            <soap:address location="http://localhost:9763/services/t/azeez.org/ShippingService"/>
+        </wsdl:port>
+        <wsdl:port name="ShippingServiceHttpSoap12Endpoint" binding="ns:ShippingServiceSoap12Binding">
+            <soap12:address location="http://localhost:8080/axis2/services/ShippingService"/>
+        </wsdl:port>
+        <wsdl:port name="ShippingServiceHttpEndpoint" binding="ns:ShippingServiceHttpBinding">
+            <http:address location="http://localhost:8080/axis2/services/ShippingService"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

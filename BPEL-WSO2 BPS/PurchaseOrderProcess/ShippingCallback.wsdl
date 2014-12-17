@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions name="ShippingCallback" targetNamespace="http://www.example.org/ShippingCallback/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.example.org/ShippingCallback/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/ShippingCallback/">
+	
+	<xsd:element name="ShippingMessage">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="shipperId" type="xsd:string"></xsd:element>
+				<xsd:element name="amount" type="xsd:int"></xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+        </xsd:schema>
+        </wsdl:types>
+    <wsdl:message name="sendShippingPriceRequest">
+		<wsdl:part name="parameters" element="tns:ShippingMessage"></wsdl:part>
+	</wsdl:message>
+    <wsdl:portType name="ShippingCallbackPortType">
+    	<wsdl:operation name="sendShippingPrice">
+    		<wsdl:input message="tns:sendShippingPriceRequest"></wsdl:input>
+    	</wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="ShippingCallbackBinding"
+    	type="tns:ShippingCallbackPortType">
+    	<soap:binding style="document"
+    		transport="http://schemas.xmlsoap.org/soap/http" />
+    	<wsdl:operation name="sendShippingPrice">
+    		<soap:operation
+    			soapAction="http://www.example.org/ShippingCallback/sendShippingPrice" />
+    		<wsdl:input>
+    			<soap:body use="literal" />
+    		</wsdl:input>
+    	</wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="ShippingCallbackService">
+    	<wsdl:port name="ShippingCallbackPort" binding="tns:ShippingCallbackBinding">
+    		<soap:address location="http://www.example.org/" />
+    	</wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

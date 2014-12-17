@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-workspace name="Projects" soapui-version="4.0.1.1" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:project name="bpel-spec-sample-process">/Users/azeez/workspace/bpel-spec-sample-process-soapui-project.xml</con:project>
+  <con:project name="ShippingCallback">/Users/azeez/workspace/ShippingCallback-soapui-project.xml</con:project>
+</con:soapui-workspace>

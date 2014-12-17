@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions name="InvoiceCallback" targetNamespace="http://www.example.org/InvoiceCallback/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.example.org/InvoiceCallback/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:types><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/InvoiceCallback/">
+	<xsd:element name="computePriceCallback">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="orderId" type="xsd:string"></xsd:element>
+				<xsd:element name="price" type="xsd:int"></xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="computePriceCallbackResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="out" type="xsd:string"></xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element></xsd:schema></wsdl:types>
+    <wsdl:message name="computePriceCallbackRequest">
+		<wsdl:part name="parameters" element="tns:computePriceCallback"></wsdl:part>
+	</wsdl:message>
+    <wsdl:message name="computePriceCallbackResponse">
+    	<wsdl:part name="parameters" element="tns:computePriceCallbackResponse"></wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="ComputePriceCallbackPortType">
+    	<wsdl:operation name="computePriceCallback">
+    		<wsdl:input message="tns:computePriceCallbackRequest"></wsdl:input>
+    	</wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="ComputePriceCallbackBinding"
+    	type="tns:ComputePriceCallbackPortType">
+    	<soap:binding style="document"
+    		transport="http://schemas.xmlsoap.org/soap/http" />
+    	<wsdl:operation name="computePriceCallback">
+    		<soap:operation
+    			soapAction="http://www.example.org/InvoiceCallback/computePriceCallback" />
+    		<wsdl:input>
+    			<soap:body use="literal" />
+    		</wsdl:input>
+    	</wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="ComputePriceCallbackService">
+    	<wsdl:port name="ComputePriceCallbackPort" binding="tns:ComputePriceCallbackBinding">
+    		<soap:address location="http://www.example.org/" />
+    	</wsdl:port>
+    </wsdl:service></wsdl:definitions>

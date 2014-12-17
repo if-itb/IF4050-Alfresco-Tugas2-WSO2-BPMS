@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://wso2.org/bps/sample" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:wsdl="http://computeprice.spec.bpel.wso2.org" xmlns:wsdl1="http://www.example.org/InvoiceCallback/"
+	xmlns:wsdl2="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl3="http://shipping.spec.bpel.wso2.org"
+	xmlns:wsdl4="http://www.example.org/ShippingCallback/" xmlns:wsdl5="http://scheduling.spec.bpel.wso2.org"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PurchaseOrderProcess"
+	targetNamespace="http://wso2.org/bps/sample">
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		TYPE DEFINITION - List of types participating in this BPEL process The BPEL 
+		Designer will generate default request and response types but you can define 
+		or import any XML Schema type and use them as part of the message types. 
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<plnk:partnerLinkType name="InvoicingPLT">
+		<plnk:role name="computePriceRole" portType="wsdl:ComputePriceServicePortType" />
+		<plnk:role name="computePriceCallbackRole" portType="wsdl1:ComputePriceCallbackPortType" />
+	</plnk:partnerLinkType>
+	<vprop:property name="orderId" type="xsd:string" />
+	<vprop:propertyAlias messageType="tns:PurchaseOrderProcessRequestMessage"
+		part="payload" propertyName="tns:orderId">
+		<vprop:query><![CDATA[/tns:orderId]]></vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias messageType="wsdl1:computePriceCallbackRequest"
+		part="parameters" propertyName="tns:orderId">
+		<vprop:query><![CDATA[/orderId]]></vprop:query>
+	</vprop:propertyAlias>
+	<vprop:property name="foo" type="xsd:string" />
+	<vprop:propertyAlias messageType="wsdl1:computePriceCallbackRequest"
+		part="parameters" propertyName="tns:foo">
+		<vprop:query><![CDATA[/orderId]]></vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias messageType="wsdl:computePriceRequest"
+		part="parameters" propertyName="tns:foo">
+		<vprop:query><![CDATA[/wsdl:orderId]]></vprop:query>
+	</vprop:propertyAlias>
+	<plnk:partnerLinkType name="shippingPL">
+		<plnk:role name="shipper" portType="wsdl3:ShippingServicePortType" />
+		<plnk:role name="shippingCallback" portType="wsdl4:ShippingCallbackPortType" />
+	</plnk:partnerLinkType>
+	<vprop:property name="shipperId" type="xsd:string" />
+	<vprop:propertyAlias messageType="tns:PurchaseOrderProcessRequestMessage"
+		part="payload" propertyName="tns:shipperId">
+		<vprop:query><![CDATA[/tns:shipperId]]></vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias messageType="wsdl4:sendShippingPriceRequest"
+		part="parameters" propertyName="tns:shipperId">
+		<vprop:query><![CDATA[/shipperId]]></vprop:query>
+	</vprop:propertyAlias>
+	<plnk:partnerLinkType name="schedulingPLT">
+		<plnk:role name="producer" portType="wsdl5:ProductionSchedulingServicePortType" />
+	</plnk:partnerLinkType>
+	<wsdl2:import location="ComputePriceService.wsdl"
+		namespace="http://computeprice.spec.bpel.wso2.org" />
+	<wsdl2:import location="InvoiceCallback.wsdl"
+		namespace="http://www.example.org/InvoiceCallback/" />
+	<wsdl2:import location="ShippingService.wsdl"
+		namespace="http://shipping.spec.bpel.wso2.org" />
+	<wsdl2:import location="ShippingCallback.wsdl"
+		namespace="http://www.example.org/ShippingCallback/" />
+	<wsdl2:import location="ProductionSchedulingService.wsdl"
+		namespace="http://scheduling.spec.bpel.wso2.org" />
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			attributeFormDefault="unqualified" elementFormDefault="qualified"
+			targetNamespace="http://wso2.org/bps/sample">
+
+			<element name="PurchaseOrderProcessRequest">
+				<complexType>
+					<sequence>
+						<element name="orderId" type="string" />
+						<element name="shipperId" type="string" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="PurchaseOrderProcessResponse">
+				<complexType>
+					<sequence>
+						<element name="result" type="long" />
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		MESSAGE TYPE DEFINITION - Definition of the message types used as part of 
+		the port type defintions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<message name="PurchaseOrderProcessRequestMessage">
+		<part element="tns:PurchaseOrderProcessRequest" name="payload" />
+	</message>
+	<message name="PurchaseOrderProcessResponseMessage">
+		<part element="tns:PurchaseOrderProcessResponse" name="payload" />
+	</message>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		PORT TYPE DEFINITION - A port type groups a set of operations into a logical 
+		service unit. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+	<!-- portType implemented by the PurchaseOrderProcess BPEL process -->
+	<portType name="PurchaseOrderProcess">
+		<operation name="process">
+			<input message="tns:PurchaseOrderProcessRequestMessage" />
+			<output message="tns:PurchaseOrderProcessResponseMessage" />
+		</operation>
+	</portType>
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		PARTNER LINK TYPE DEFINITION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<plnk:partnerLinkType name="PurchaseOrderProcess">
+		<plnk:role name="PurchaseOrderProcessProvider" portType="tns:PurchaseOrderProcess" />
+	</plnk:partnerLinkType>
+
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		BINDING DEFINITION - Defines the message format and protocol details for 
+		a web service. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<binding name="PurchaseOrderProcessBinding" type="tns:PurchaseOrderProcess">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="process">
+			<soap:operation soapAction="http://wso2.org/bps/sample/process" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		SERVICE DEFINITION - A service groups a set of ports into a service unit. 
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<service name="PurchaseOrderProcess">
+		<port binding="tns:PurchaseOrderProcessBinding" name="PurchaseOrderProcessPort">
+			<soap:address location="http://localhost:8080/PurchaseOrderProcess" />
+		</port>
+	</service>
+</definitions>

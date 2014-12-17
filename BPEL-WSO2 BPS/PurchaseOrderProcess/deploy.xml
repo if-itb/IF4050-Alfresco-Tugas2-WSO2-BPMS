@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:InvoiceCallback="http://www.example.org/InvoiceCallback/" xmlns:ShippingCallback="http://www.example.org/ShippingCallback/" xmlns:computeprice.spec.bpel.wso2.org="http://computeprice.spec.bpel.wso2.org" xmlns:sample="http://wso2.org/bps/sample" xmlns:scheduling.spec.bpel.wso2.org="http://scheduling.spec.bpel.wso2.org" xmlns:shipping.spec.bpel.wso2.org="http://shipping.spec.bpel.wso2.org">
+  <process name="sample:PurchaseOrderProcess">
+    <active>true</active>
+    <retired>false</retired>
+    <in-memory>false</in-memory>
+    <process-events generate="all"/>
+    <provide partnerLink="client">
+      <service name="sample:PurchaseOrderProcess" port="PurchaseOrderProcessPort"/>
+    </provide>
+    <provide partnerLink="InvoicingPL">
+      <service name="InvoiceCallback:ComputePriceCallbackService" port="ComputePriceCallbackPort"/>
+    </provide>
+    <provide partnerLink="shippingPL">
+      <service name="ShippingCallback:ShippingCallbackService" port="ShippingCallbackPort"/>
+    </provide>
+    <invoke partnerLink="InvoicingPL">
+      <service name="computeprice.spec.bpel.wso2.org:ComputePriceService" port="ComputePriceServiceHttpSoap11Endpoint"/>
+    </invoke>
+    <invoke partnerLink="shippingPL">
+      <service name="shipping.spec.bpel.wso2.org:ShippingService" port="ShippingServiceHttpSoap11Endpoint"/>
+    </invoke>
+    <invoke partnerLink="schedulingPL">
+      <service name="scheduling.spec.bpel.wso2.org:ProductionSchedulingService" port="ProductionSchedulingServiceHttpSoap11Endpoint"/>
+    </invoke>
+  </process>
+</deploy>
